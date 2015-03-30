@@ -22,7 +22,9 @@ public class UserController {
     @Qualifier("userService") //this is to specify implementation class
     private IUserService userService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/",
+            method = RequestMethod.GET,
+            produces="application/json;charset=UTF-8")
     public String listUsers(ModelMap model) {
         model.addAttribute("user", new User());
         model.addAttribute("users", userService.getAllUsers());
@@ -34,14 +36,18 @@ public class UserController {
      * @return users in json
      */
     @ResponseBody
-    @RequestMapping(value="/json", method = RequestMethod.GET)
+    @RequestMapping(value = "/json",
+            method = RequestMethod.GET,
+            produces="application/json;charset=UTF-8")
     public  List<User> listUsers() {
         List<User> users = userService.getAllUsers();
         return users;
     }
 
     @ResponseBody
-    @RequestMapping(value="/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value="/{userId}",
+            method = RequestMethod.GET,
+            produces="application/json;charset=UTF-8")
     public User findUser(@PathVariable("userId") int userId) {
         User user = userService.getUser(userId);
         return user;
@@ -52,8 +58,7 @@ public class UserController {
         userService.addUser(user);
         return "redirect:/";
     }
-
-    @RequestMapping("/delete/{userId}")
+    @RequestMapping(value = "/delete/{userId}", method = RequestMethod.PUT)
     public String deleteUser(@PathVariable("userId") int userId) {
         userService.deleteUser(userId);
         return "redirect:/";
