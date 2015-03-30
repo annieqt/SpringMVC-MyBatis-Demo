@@ -1,8 +1,9 @@
 package com.springapp.mvc.controller;
 
 import com.springapp.mvc.model.User;
-import com.springapp.mvc.mapper.UserMapper;
+import com.springapp.mvc.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -18,12 +19,13 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    private UserMapper userDao;
+    @Qualifier("userService") //this is to specify implementation class
+    private IUserService userService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String listUsers(ModelMap model) {
         model.addAttribute("user", new User());
-        model.addAttribute("users", userDao.findAll());
+        model.addAttribute("users", userService.getAllUsers());
         return "redirect:/";
     }
 
@@ -34,26 +36,26 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value="/json", method = RequestMethod.GET)
     public  List<User> listUsers() {
-        List<User> users = userDao.findAll();
+        List<User> users = userService.getAllUsers();
         return users;
     }
 
     @ResponseBody
     @RequestMapping(value="/{userId}", method = RequestMethod.GET)
     public User findUser(@PathVariable("userId") int userId) {
-        User user = userDao.findById(userId);
+        User user = userService.getUser(userId);
         return user;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addUser(@ModelAttribute("user") User user, BindingResult result) {
-        userDao.add(user);
+        userService.addUser(user);
         return "redirect:/";
     }
 
     @RequestMapping("/delete/{userId}")
     public String deleteUser(@PathVariable("userId") int userId) {
-        userDao.delete(userId);
+        userService.deleteUser(userId);
         return "redirect:/";
     }
 }

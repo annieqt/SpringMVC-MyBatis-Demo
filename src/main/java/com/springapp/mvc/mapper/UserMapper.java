@@ -21,12 +21,12 @@ public interface UserMapper {
     public void update(User user);
 
     @Select("select * from user where id=#{id}")
-    public User findById(int id);
+    public User findById(long id);
 
     @Select("select * from user")
     public List<User> findAll();
 
     @Delete("delete from user where id=#{id}")
-    public void delete(int id);
+    public void delete(long id);
 
 }
