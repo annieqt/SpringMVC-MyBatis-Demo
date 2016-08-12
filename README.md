@@ -1,5 +1,5 @@
 # SpringMVC-MyBatis-Demo
-This is a simple demo using spring-mvc+mybatis+mysql+maven.
+This is a simple demo using Spring-MVC+MyBatis+MySQL+Maven.
 
 * With the use of annotations like @Component @Service @Repository @Controller, the classes become singleton.
 * The injection of 'sqlSessionFactory' makes it easier to load 'mybatis-config.xml', and 'sqlSessionFactory' also becomes a singleton.
